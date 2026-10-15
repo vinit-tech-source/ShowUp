@@ -227,6 +227,10 @@ class TestDatabaseAndWipeAll:
 
         with get_session(factory) as s:
             ClientRepo.get_or_create(s, external_id="WIPE_CLIENT")
+            assert len(ClientRepo.list_all(s)) == 1
 
-        wipe_all(tmp_path)
+            # Wipe with active session
+            wipe_all(data_dir=tmp_path, session=s)
+            assert len(ClientRepo.list_all(s)) == 0
+
         assert not (log_dir / "app.log").exists()
