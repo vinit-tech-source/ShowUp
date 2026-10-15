@@ -143,6 +143,7 @@ filterwarnings = [
     "ignore::DeprecationWarning:sklearn.*",
     "ignore::DeprecationWarning:tabpfn.*",
     "ignore::DeprecationWarning:google.*",
+    "ignore::DeprecationWarning:alembic.*",
 ]
 
 [tool.coverage.run]
