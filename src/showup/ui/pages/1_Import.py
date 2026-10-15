@@ -190,6 +190,7 @@ if uploaded_file is not None:
                                     name=c.name,
                                     phone=c.phone,
                                     language=c.language,
+                                    client_id=c.id,
                                 )
 
                             count = BookingRepo.add_batch(session, deduped_bookings)

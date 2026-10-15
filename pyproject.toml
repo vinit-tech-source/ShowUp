@@ -92,8 +92,9 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "S106", "PLR2004"]
+"tests/**/*.py" = ["S101", "S106", "PLR2004", "PLR0915"]
 "src/showup/ui/**/*.py" = ["T20", "E501"]  # allow print and long UI/HTML strings in Streamlit UI
+"scripts/**/*.py" = ["T20"]  # CLI helper scripts print to terminal
 
 [tool.ruff.format]
 quote-style = "double"

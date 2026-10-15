@@ -7,7 +7,7 @@ import shutil
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
@@ -112,9 +112,11 @@ class ClientRepo:
     def get_or_create(
         session: Session,
         external_id: str,
+        *,
         name: str | None = None,
         phone: str | None = None,
         language: str | None = "en",
+        client_id: UUID | None = None,
     ) -> Client:
         stmt = select(ClientModel).where(ClientModel.external_id == external_id)
         existing = session.scalar(stmt)
@@ -130,6 +132,7 @@ class ClientRepo:
             return _client_to_domain(existing)
 
         client = Client(
+            id=client_id or uuid4(),
             external_id=external_id,
             name=name,
             phone=phone,

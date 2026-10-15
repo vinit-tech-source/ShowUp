@@ -44,7 +44,7 @@ else:
     # 1. Deposit Intervention Card
     with col1:
         st.subheader("💳 Upfront Deposits")
-        dep = cards.get("deposit")
+        dep = cards.get("deposit_paid") or cards.get("deposit")
 
         if dep and dep.is_visible and dep.difference_pp is not None:
             diff_sign = "+" if dep.difference_pp >= 0 else ""
@@ -85,7 +85,7 @@ else:
     # 2. Confirmation Reminder Card
     with col2:
         st.subheader("📲 Confirmation Requests")
-        conf = cards.get("confirmation")
+        conf = cards.get("confirmed") or cards.get("confirmation")
 
         if conf and conf.is_visible and conf.difference_pp is not None:
             diff_sign = "+" if conf.difference_pp >= 0 else ""
