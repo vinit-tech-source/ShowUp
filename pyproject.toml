@@ -86,6 +86,8 @@ ignore = [
     "S607",   # allow partial executable path
     "PLR0913", # allow many function arguments
     "PLR2004", # allow magic values in comparisons
+    "N803",   # allow uppercase argument names (e.g. X for feature matrix)
+    "N806",   # allow uppercase variable names (e.g. X for feature matrix)
 ]
 
 [tool.ruff.lint.per-file-ignores]
