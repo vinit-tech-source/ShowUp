@@ -54,8 +54,8 @@ ShowUp helps independent service businesses — **physiotherapists, remedial mas
 
 ```bash
 # Clone the repository
-git clone https://github.com/vinit/showup.git
-cd showup
+git clone https://github.com/vinit-tech-source/ShowUp.git
+cd ShowUp
 
 # Install editable package with all dependencies
 pip install -e ".[dev]"

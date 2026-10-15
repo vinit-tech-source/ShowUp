@@ -51,6 +51,11 @@ dev = [
 [project.scripts]
 showup = "showup.ui.app:main"
 
+[project.urls]
+Homepage = "https://github.com/vinit-tech-source/ShowUp"
+Repository = "https://github.com/vinit-tech-source/ShowUp"
+Issues = "https://github.com/vinit-tech-source/ShowUp/issues"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/showup"]
 
