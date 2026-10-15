@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import functools
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
@@ -60,22 +61,39 @@ def create_db_engine(db_url: str | None = None, *, echo: bool = False) -> Engine
     return engine
 
 
+@functools.lru_cache(maxsize=1)
+def get_default_engine() -> Engine:
+    """Return or lazily create the default SQLAlchemy engine."""
+    return create_db_engine()
+
+
+@functools.lru_cache(maxsize=1)
+def get_default_session_factory() -> sessionmaker[Session]:
+    """Return or lazily create the default session factory."""
+    return get_session_factory(get_default_engine())
+
+
 def get_session_factory(engine: Engine) -> sessionmaker[Session]:
     """Create a sessionmaker bound to the given engine."""
     return sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
-def init_db(engine: Engine, db_path: Path | None = None) -> None:
+def init_db(engine: Engine | None = None, db_path: Path | None = None) -> None:
     """Initialize database tables and set file permissions."""
-    Base.metadata.create_all(bind=engine)
-    if db_path is not None and db_path.exists():
-        set_db_file_permissions(db_path)
+    target_engine = engine or get_default_engine()
+    Base.metadata.create_all(bind=target_engine)
+    target_path = db_path or get_settings().db_path
+    if target_path is not None and target_path.exists():
+        set_db_file_permissions(target_path)
 
 
 @contextmanager
-def get_session(session_factory: sessionmaker[Session]) -> Generator[Session, None, None]:
+def get_session(
+    session_factory: sessionmaker[Session] | None = None,
+) -> Generator[Session, None, None]:
     """Provide a transactional session context."""
-    session = session_factory()
+    factory = session_factory or get_default_session_factory()
+    session = factory()
     try:
         yield session
         session.commit()

@@ -88,11 +88,12 @@ ignore = [
     "PLR2004", # allow magic values in comparisons
     "N803",   # allow uppercase argument names (e.g. X for feature matrix)
     "N806",   # allow uppercase variable names (e.g. X for feature matrix)
+    "RUF001", # allow intentional unicode characters (emojis, em-dashes) in UI strings
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "S106", "PLR2004"]
-"src/showup/ui/**/*.py" = ["T20"]  # allow print in Streamlit UI
+"src/showup/ui/**/*.py" = ["T20", "E501"]  # allow print and long UI/HTML strings in Streamlit UI
 
 [tool.ruff.format]
 quote-style = "double"

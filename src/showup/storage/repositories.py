@@ -12,6 +12,7 @@ from uuid import UUID
 from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
+from showup.config import get_settings
 from showup.domain.enums import Outcome, RiskBand, RunStatus
 from showup.domain.models import Booking, Client, ColumnMapping, ScoringResult, ScoringRun
 from showup.logging_setup import get_logger
@@ -469,14 +470,15 @@ class SettingsRepo:
 
 
 def wipe_all(
-    data_dir: Path | str,
+    data_dir: Path | str | None = None,
     session: Session | None = None,
 ) -> None:
     """Delete all database records, caches, and logs with complete wiping.
 
     Enforces local-first privacy: no trace of client data remains.
     """
-    path = Path(data_dir)
+    target_dir = data_dir or get_settings().data_dir
+    path = Path(target_dir)
     logger.info("wiping_all_data", data_dir=str(path))
 
     # If active session provided, delete all records first
