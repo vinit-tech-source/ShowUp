@@ -1,0 +1,9 @@
+Client Email,Appointment Time,Status,Service,Price,Channel,Deposit,Confirmed,Phone
+alice@example.com,2026-03-01 10:00:00,Attended,Physio Initial,85.00,Online,Yes,Yes,+1234567890
+alice@example.com,2026-03-15 11:00:00,Attended,Physio Followup,65.00,Phone,No,Yes,+1234567890
+bob@example.com,2026-03-02 14:00:00,No-Show,Chiropractic,90.00,Online,No,No,+1987654321
+charlie@example.com,2026-03-05 09:30:00,Attended,Massage 60min,75.00,Walk-in,Yes,Yes,+1122334455
+charlie@example.com,2026-03-20 16:00:00,No-Show,Massage 60min,75.00,Online,No,No,+1122334455
+david@example.com,2026-04-10 10:00:00,Scheduled,Physio Initial,85.00,Online,No,Yes,+1555666777
+eva@example.com,2026-04-12 15:30:00,Pending,Acupuncture,80.00,Phone,Yes,Yes,+1444333222
+frank@example.com,2026-03-10 12:00:00,Cancelled,Physio Initial,85.00,Online,No,No,+1777888999
