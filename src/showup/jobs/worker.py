@@ -18,7 +18,7 @@ from showup.logging_setup import get_logger
 from showup.scoring.backtest import run_time_ordered_backtest
 from showup.scoring.baseline import LogisticBaseline
 from showup.scoring.rules import score_features_row_with_rules
-from showup.scoring.selector import select_scoring_model
+from showup.scoring.selector import SelectionResult, select_scoring_model
 from showup.scoring.tabpfn_scorer import TabPFNScorer
 from showup.storage.database import get_session
 from showup.storage.repositories import BookingRepo, ScoringRepo
@@ -102,6 +102,32 @@ def _score_batch(
     return scoring_results, "rules"
 
 
+def _select_model_for_history(history: list[Booking]) -> SelectionResult:
+    """Evaluate history and select best scoring model with honest backtest."""
+    total_labeled = len(history)
+    total_no_shows = sum(1 for b in history if b.outcome == Outcome.NO_SHOW)
+
+    if total_labeled >= 30 and total_no_shows >= 5:
+        tabpfn_scorer = TabPFNScorer()
+        backtest_summary = run_time_ordered_backtest(
+            history,
+            min_train_size=max(20, total_labeled // 3),
+            step_size=max(5, total_labeled // 10),
+            random_state=42,
+            include_tabpfn=tabpfn_scorer.is_available,
+            tabpfn_model=tabpfn_scorer if tabpfn_scorer.is_available else None,
+        )
+        return select_scoring_model(
+            total_labeled=total_labeled,
+            total_no_shows=total_no_shows,
+            backtest=backtest_summary,
+        )
+    return select_scoring_model(
+        total_labeled=total_labeled,
+        total_no_shows=total_no_shows,
+    )
+
+
 def execute_scoring_job(
     session_factory: Callable[[], Session] | None = None,
     run_id: UUID | None = None,
@@ -160,30 +186,10 @@ def execute_scoring_job(
                 latest = ScoringRepo.get_latest_scoring_run(session)
                 return latest or initial_run
 
-            total_labeled = len(history)
-            total_no_shows = sum(1 for b in history if b.outcome == Outcome.NO_SHOW)
-
             ScoringRepo.update_scoring_run_progress(session, job_id, 40)
             session.commit()
 
-            if total_labeled >= 30 and total_no_shows >= 5:
-                backtest_summary = run_time_ordered_backtest(
-                    history,
-                    min_train_size=max(20, total_labeled // 3),
-                    step_size=max(5, total_labeled // 10),
-                    random_state=42,
-                )
-                selection = select_scoring_model(
-                    total_labeled=total_labeled,
-                    total_no_shows=total_no_shows,
-                    backtest=backtest_summary,
-                )
-            else:
-                selection = select_scoring_model(
-                    total_labeled=total_labeled,
-                    total_no_shows=total_no_shows,
-                )
-
+            selection = _select_model_for_history(history)
             tier = selection.tier
             model_name = selection.selected_model
             explanation = selection.explanation

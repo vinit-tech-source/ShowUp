@@ -34,14 +34,13 @@ ShowUp integrates TabPFN v2 as its Tier-3 tabular foundation model for zero-shot
 
 ---
 
-## 3. Gemma LLM via Ollama (Google DeepMind)
+## 3. Local Open-Weights LLMs via Ollama
 
-ShowUp utilizes Google's open-weight Gemma models (default: `gemma3:4b`) running locally through the Ollama runtime for multilingual WhatsApp reminder synthesis.
+ShowUp interfaces with local open-weight language models (e.g. `llama3.2:3b`, `gemma3:4b`) running locally through the Ollama runtime for multilingual WhatsApp reminder synthesis.
 
-- **Developer**: Google DeepMind
 - **Distribution Runtime**: Ollama (MIT License)
-- **Model Terms**: [Gemma Terms of Use](https://ai.google.dev/gemma/terms)
-- **Commercial Permissibility**: Google grants a royalty-free, worldwide, non-exclusive license to use, reproduce, modify, and distribute Gemma for commercial purposes, subject to compliance with the Gemma Prohibited Use Policy.
+- **Model Terms**: Respective model licenses (e.g., Llama 3.2 Community License, Gemma Terms of Use)
+- **Commercial Permissibility**: Both Llama 3.2 and Gemma grant royalty-free licenses for commercial applications adhering to acceptable use policies.
 - **Privacy & Safety**: All inference executes strictly on the local CPU/GPU via `http://localhost:11434`. No prompt text, client names, or booking details are ever transmitted to external cloud endpoints.
 
 ---

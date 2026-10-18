@@ -86,6 +86,10 @@ class OllamaClient:
         """
         settings = get_settings()
         target_model = model or settings.ollama_model
+        if not self.is_model_available(target_model):
+            available = self.list_models()
+            if available:
+                target_model = available[0]
 
         payload: dict[str, object] = {
             "model": target_model,

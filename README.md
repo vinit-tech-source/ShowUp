@@ -23,14 +23,14 @@ ShowUp helps independent service businesses — **physiotherapists, remedial mas
                                                                        │
 ┌─────────────────┐      ┌─────────────────────────┐                   │
 │ Manual Dispatch │ ◄─── │ WhatsApp Message Draft  │ ◄─────────────────┘
-│  (wa.me link)   │      │ (Gemma local LLM)       │
+│  (wa.me link)   │      │ (Local LLM via Ollama)  │
 └─────────────────┘      └─────────────────────────┘
 ```
 
 1. **Deterministic Cost Impact**: Calculates exact lost revenue and no-show rates strictly from your historical data. Never quotes hypothetical "industry averages."
 2. **Upcoming Risk Scoring**: Predicts unexcused absence probabilities for upcoming appointments using an adaptive 3-tier hierarchy (Heuristic Rules, Calibrated Logistic Regression, and TabPFN v2).
 3. **Data-Grounded What-If Simulator**: Stratifies historical attendance by upfront deposit and confirmation status to measure empirical show-up differences with sample size disclosures.
-4. **Local LLM Message Drafting**: Synthesizes culturally nuanced, multilingual WhatsApp reminder drafts (English, Hindi, Marathi) using Google Gemma running locally via Ollama.
+4. **Local LLM Message Drafting**: Synthesizes culturally nuanced, multilingual WhatsApp reminder drafts (English, Hindi, Marathi) using open-weight local LLMs (e.g., `llama3.2:3b`, `gemma3:4b`) running on localhost via Ollama.
 5. **Human-in-the-Loop Dispatch**: Pre-populates `wa.me` links for one-click manual sending. **Nothing is ever auto-sent.**
 
 ---
@@ -64,8 +64,8 @@ pip install -e ".[dev]"
 ### 2. Prepare Local AI Models
 
 ```bash
-# Pull Gemma model for WhatsApp message drafting
-ollama pull gemma3:4b
+# Pull an open-weight model in Ollama (e.g., llama3.2:3b or gemma3:4b)
+ollama pull llama3.2:3b
 
 # Verify local models
 python scripts/download_models.py
@@ -145,7 +145,9 @@ mypy --strict src/
 
 ---
 
-## License
+## License & Attributions
 
 ShowUp is open-source software licensed under the **[MIT License](LICENSE)**.
-Third-party models (TabPFN v2, Gemma) are subject to their respective licenses. See [docs/licensing.md](docs/licensing.md) for details.
+
+- **TabPFN-2**: Uses TabPFN-2 by [Prior Labs](https://github.com/prior-labs/TabPFN) (Apache 2.0 permissive open-weight license with attribution).
+- **Ollama / LLMs**: Local inference models subject to their respective open-weight licenses (e.g. Llama 3.2, Gemma). See [docs/licensing.md](docs/licensing.md) for details.

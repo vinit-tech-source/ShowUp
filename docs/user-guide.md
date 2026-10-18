@@ -1,6 +1,6 @@
 # ShowUp — Comprehensive User Guide
 
-Welcome to **ShowUp**, the privacy-first, local-only desktop assistant designed to help solo service professionals (physiotherapists, remedial massage therapists, private tutors, hair stylists, driving instructors) eliminate appointment no-shows.
+Welcome to **ShowUp**, the privacy-first, local-only desktop assistant designed to help solo service professionals (physiotherapists, remedial massage therapists, private tutors, hair stylists, driving instructors) reduce appointment no-shows.
 
 ---
 

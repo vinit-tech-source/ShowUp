@@ -5,57 +5,54 @@ from __future__ import annotations
 import streamlit as st
 
 import showup
-from showup.ui.components import inject_custom_theme, render_privacy_banner
+from showup.ui.components import get_system_model_status, page_header
 
-inject_custom_theme()
-render_privacy_banner()
-
-st.title("ℹ️ About ShowUp")
-st.markdown(
-    "ShowUp is an open-weight, local-first decision support tool for solo service businesses."
+# 1. Header
+page_header(
+    title="About ShowUp",
+    subtitle="Open-weight, local-first decision support to help solo service businesses reduce appointment no-shows.",
+    icon=":material/info:",
 )
+
+model_status = get_system_model_status()
 
 col1, col2 = st.columns(2)
 with col1:
-    st.subheader("📦 System Versions")
+    st.subheader("Application Details")
     st.markdown(
-        f"""
-        <div class="showup-card">
-            <strong>ShowUp Core:</strong> <code>v{showup.__version__}</code><br>
-            <strong>License:</strong> MIT License<br>
-            <strong>Database:</strong> SQLite with Write-Ahead Logging (WAL)<br>
-            <strong>Python:</strong> 3.12+ (Typed with mypy --strict)
-        </div>
-        """,
-        unsafe_allow_html=True,
+        f"**ShowUp:** `v{showup.__version__}`\n\n"
+        "**License:** MIT Open Source License\n\n"
+        "**Privacy Guarantee:** 100% on-device operation. Zero telemetry."
     )
 
 with col2:
-    st.subheader("🧠 Open-Weight AI Models")
+    st.subheader("Local AI Models")
     st.markdown(
-        """
-        <div class="showup-card">
-            <strong>Scoring (Tier 2 ML):</strong><br>
-            • TabPFN v2 (Prior Labs) — Tabular Foundation Model<br>
-            • Calibrated Logistic Regression (Scikit-learn)<br><br>
-            <strong>Drafting (WhatsApp LLM):</strong><br>
-            • Gemma 2 via local Ollama (localhost:11434)<br>
-            • Multi-lingual support: English, Hindi, Marathi
-        </div>
-        """,
-        unsafe_allow_html=True,
+        f"**Message Assistant:** {model_status['llm']}\n\n"
+        f"**Risk Scoring Engine:** {model_status['tabpfn']}\n\n"
+        "**Supported Languages:** English, Hindi (हिन्दी), Marathi (मराठी)"
     )
 
 st.divider()
 
-st.subheader("📜 Attributions & Licenses")
+# 2. Plain Language Attributions
+st.subheader("Attributions & Acknowledgements")
 st.markdown(
     """
-    - **TabPFN v2**: Developed by Prior Labs and the AutoML Freiburg team. Used for out-of-the-box in-context tabular prediction.
-    - **Gemma 2**: Open-weights model by Google DeepMind. Run locally via Ollama.
-    - **Scikit-learn**: BSD 3-Clause License.
-    - **SQLAlchemy & Alembic**: MIT License.
-    - **Streamlit**: Apache 2.0 License.
-    - **Zero Telemetry Guarantee**: `HF_HUB_OFFLINE=1`, `DO_NOT_TRACK=1`, and `TRANSFORMERS_OFFLINE=1` are enforced at startup.
+    - **Uses TabPFN-2 by [Prior Labs](https://github.com/prior-labs/TabPFN)**: Pre-trained tabular foundation model. Permissive open-weight license (Apache 2.0 compatible) with attribution.
+    - **Ollama & Open-Weights LLMs**: Local inference runtime enabling privacy-preserving reminder drafting.
+    - **Scikit-learn**: Calibrated logistic regression and metrics evaluation.
+    - **Streamlit**: Desktop web application interface.
     """
 )
+
+st.divider()
+
+# 3. Technical Expander
+with st.expander("Advanced / technical details"):
+    st.markdown(
+        f"**ShowUp Build:** `{showup.__version__}`\n\n"
+        "**Python Runtime:** 3.12+ (strictly typed with mypy)\n\n"
+        "**Offline Telemetry Guards:** `HF_HUB_DISABLE_TELEMETRY=1`, `DO_NOT_TRACK=1`, `TRANSFORMERS_OFFLINE=1`\n\n"
+        "**Database Layer:** SQLite with SQLAlchemy 2 ORM and Alembic migrations."
+    )

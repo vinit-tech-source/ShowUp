@@ -99,7 +99,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "S106", "PLR2004", "PLR0915"]
 "src/showup/ui/**/*.py" = ["T20", "E501"]  # allow print and long UI/HTML strings in Streamlit UI
-"scripts/**/*.py" = ["T20", "S310"]  # CLI helper scripts print to terminal and access local URLs
+"scripts/**/*.py" = ["T20", "S310", "E501", "PLR0915", "PLR0917", "DTZ005"]  # CLI scripts print to terminal and format reports
 
 [tool.ruff.format]
 quote-style = "double"
@@ -153,6 +153,7 @@ filterwarnings = [
     "ignore::DeprecationWarning:tabpfn.*",
     "ignore::DeprecationWarning:google.*",
     "ignore::DeprecationWarning:alembic.*",
+    "ignore::scipy.optimize.OptimizeWarning",
 ]
 
 [tool.coverage.run]

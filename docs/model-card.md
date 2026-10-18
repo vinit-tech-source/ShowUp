@@ -6,8 +6,8 @@
   - **Tier 1 (Heuristic Baseline)**: Rule-based risk assigner for new deployments ($N < 30$ historical appointments).
   - **Tier 2 (Parametric Baseline)**: Calibrated Logistic Regression with L2 regularization and isotonic/sigmoid calibration ($30 \le N < 100$).
   - **Tier 3 (Tabular Foundation Model)**: TabPFN v2 (Prior Labs), zero-telemetry in-context transformer ($N \ge 100$, activated only when non-overlapping bootstrap confidence intervals demonstrate statistically significant PR-AUC superiority).
-- **Secondary Local Model**: Gemma (`gemma3:4b` via local Ollama instance) for client-language WhatsApp message drafting.
-- **License**: MIT (ShowUp core pipeline); Prior Labs Non-Commercial / Research License for default TabPFN v2 weights (see `docs/licensing.md`); Apache 2.0 / Gemma Terms of Use for Ollama Gemma weights.
+- **Secondary Local Model**: Open-weight local LLMs (e.g., `llama3.2:3b`, `gemma3:4b` via local Ollama instance) for client-language WhatsApp message drafting.
+- **License**: MIT (ShowUp core pipeline); Prior Labs Non-Commercial / Research License for default TabPFN v2 weights (see `docs/licensing.md`); respective open-weights model licenses for Ollama LLMs.
 - **Inference Location**: 100% on-device (localhost CPU/GPU). Zero outbound network traffic.
 
 ---
